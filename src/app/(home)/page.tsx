@@ -1,6 +1,14 @@
+'use client';
+
 import Image from 'next/image';
 
-export default function Home() {
+import { useGetData } from '@/hooks';
+
+export default function PageHome() {
+  const { data } = useGetData({ param: 'people' });
+
+  console.log('data', data);
+
   return (
     <main>
       <Image
