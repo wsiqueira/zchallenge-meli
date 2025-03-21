@@ -1,6 +1,9 @@
+import './globals.css';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-import './globals.css';
+
+import { ReactQueryProvider } from '@/utils';
+import { Header, Footer } from '@/components';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -11,8 +14,6 @@ const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
 });
-
-import { Header, Footer } from '@/components';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -29,11 +30,13 @@ export default function RootLayout({
       <body
         className={`min-h-dvh ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="grid grid-rows-[auto_1fr_auto] md:max-w-6xl min-h-dvh">
-          <Header />
-          {children}
-          <Footer />
-        </div>
+        <ReactQueryProvider>
+          <div className="grid grid-rows-[auto_1fr_auto] md:max-w-6xl min-h-dvh">
+            <Header />
+            {children}
+            <Footer />
+          </div>
+        </ReactQueryProvider>
       </body>
     </html>
   );
