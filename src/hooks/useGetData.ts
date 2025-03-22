@@ -1,16 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
 
+import type { ResourceSchema } from 'ts-swapi';
+
 type useGetDataTypes = {
-  param: 'films' | 'people' | 'planets' | 'species' | 'starships' | 'vehicles';
-  id?: number;
+  param: keyof ResourceSchema;
+  query?: string
 };
 
-export const useGetData = ({ param, id }: useGetDataTypes) => {
+export const useGetData = ({ param, query }: useGetDataTypes) => {
   return useQuery({
     queryKey: [`get-${param}`, param],
     queryFn: async () => {
       const res = await fetch(
-        `https://swapi.dev/api/${param}${id ? `/${id}` : ''}`
+        `https://swapi.dev/api/${param}${query ? `/${query}` : ''}`
       );
 
       return await res.json();
