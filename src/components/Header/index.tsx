@@ -1,3 +1,7 @@
 export function Header() {
-  return <header>Header</header>;
+  return (
+    <header>
+      <div className="container mx-auto">Header</div>
+    </header>
+  );
 }

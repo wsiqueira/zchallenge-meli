@@ -10,9 +10,7 @@ export default function PageHome() {
   const { data } = useGetData({ param: 'people' });
 
   return (
-    <main>
-
-
+    <main className="container mx-auto md:max-w-6xl">
       <CardList data={data?.results} />
 
       {/* <Image
