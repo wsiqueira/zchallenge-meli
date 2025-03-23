@@ -28,8 +28,8 @@ export default function PageFavorites() {
         </div>
       ) : (
         <>
+          <div className='flex justify-end'>[INPUT]</div>
           <CardList data={favorites} />
-          <div>[Pagination]</div>
         </>
       )}
     </main>

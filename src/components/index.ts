@@ -3,4 +3,5 @@ export { Footer } from './Footer';
 
 export { Loading } from './Loading';
 export { Breadcrumb } from './Breadcrumb';
+export { Pagination } from './Pagination';
 export { CardList } from './CardList';
