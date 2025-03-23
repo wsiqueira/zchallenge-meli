@@ -1,5 +1,6 @@
-import { twMerge } from 'tailwind-merge';
+'use client';
 
+import { twMerge } from 'tailwind-merge';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -11,6 +12,7 @@ import {
 } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Star } from 'lucide-react';
+import Tilt from 'react-parallax-tilt';
 
 import useFavoritesStore from '@/store/favorites';
 
@@ -48,47 +50,54 @@ export function CardList({ data }: CardListType) {
           .includes(item.url);
 
         return (
-          <Card
+          <Tilt
             key={`card-${index}`}
-            className={twMerge(
-              'min-w-2xs',
-              item?.name === 'Darth Vader' && 'text-white bg-neutral-500'
-            )}
+            // perspective={500}
+            glareEnable={true}
+            glareMaxOpacity={0.45}
+            scale={1.05}
           >
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <Avatar>
-                    <AvatarImage src={cardVariant} />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
+            <Card
+              className={twMerge(
+                'min-w-2xs',
+                item?.name === 'Darth Vader' && 'text-white bg-neutral-500'
+              )}
+            >
+              <CardHeader>
+                <CardTitle className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <Avatar>
+                      <AvatarImage src={cardVariant} />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
 
-                  {item?.name}
-                </div>
+                    {item?.name}
+                  </div>
 
-                <button
-                  className="group"
-                  onClick={(event) =>
-                    handleFavoriteClick(event, item, isFavorite)
-                  }
-                >
-                  <Star
-                    className="stroke-gray-200 group-hover:stroke-yellow-400 group-hover:fill-yellow-300 aria-[checked=true]:fill-yellow-300 aria-[checked=true]:stroke-yellow-400 transition duration-200 ease-in-out"
-                    aria-checked={isFavorite}
-                  />
-                </button>
-              </CardTitle>
-              {/* <CardDescription>
+                  <button
+                    className="group cursor-pointer"
+                    onClick={(event) =>
+                      handleFavoriteClick(event, item, isFavorite)
+                    }
+                  >
+                    <Star
+                      className="stroke-gray-200 group-hover:stroke-yellow-400 group-hover:fill-yellow-300 aria-[checked=true]:fill-yellow-300 aria-[checked=true]:stroke-yellow-400 transition duration-200 ease-in-out"
+                      aria-checked={isFavorite}
+                    />
+                  </button>
+                </CardTitle>
+                {/* <CardDescription>
                 Deploy your new project in one-click.
               </CardDescription> */}
-            </CardHeader>
+              </CardHeader>
 
-            <CardContent>CardContent</CardContent>
+              <CardContent>CardContent</CardContent>
 
-            <CardFooter className="flex justify-between">
-              <Button variant="outline">Load more</Button>
-            </CardFooter>
-          </Card>
+              <CardFooter className="flex justify-between">
+                <Button variant="outline">Load more</Button>
+              </CardFooter>
+            </Card>
+          </Tilt>
         );
       })}
     </div>
