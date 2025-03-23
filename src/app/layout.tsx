@@ -31,7 +31,7 @@ export default function RootLayout({
         className={`min-h-dvh ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ReactQueryProvider>
-          <div className="grid grid-rows-[auto_1fr_auto] min-h-dvh">
+          <div className="grid grid-rows-[auto_1fr_auto] gap-8 min-h-dvh">
             <Header />
             {children}
             <Footer />
