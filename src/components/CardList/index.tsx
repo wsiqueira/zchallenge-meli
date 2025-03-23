@@ -11,13 +11,7 @@ import { Star } from 'lucide-react';
 
 import useFavoritesStore from '@/store/favorites';
 
-import type { Film, People, Planet, Species, Starship } from 'ts-swapi';
-
-type CardItemType = Film & People & Planet & Species & Starship & {};
-
-type CardListType = {
-  data: CardItemType[];
-};
+import type { CardListType, CardItemType } from './types';
 
 export function CardList({ data }: CardListType) {
   const favorites = useFavoritesStore((state) => state.favorites);
@@ -46,7 +40,7 @@ export function CardList({ data }: CardListType) {
           .includes(item.url);
 
         return (
-          <Card key={`card-${index}`}>
+          <Card key={`card-${index}`} className='min-w-2xs'>
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
                 {item?.name}{' '}
@@ -57,7 +51,7 @@ export function CardList({ data }: CardListType) {
                   }
                 >
                   <Star
-                    className="group-hover:fill-yellow-300 aria-[checked=true]:fill-yellow-300 transition duration-200 ease-in-out"
+                    className="stroke-gray-200 group-hover:stroke-yellow-400 group-hover:fill-yellow-300 aria-[checked=true]:fill-yellow-300 aria-[checked=true]:stroke-yellow-400 transition duration-200 ease-in-out"
                     aria-checked={isFavorite}
                   />
                 </button>
