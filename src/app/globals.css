@@ -120,3 +120,25 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .heading1, .heading2, .heading3 {
+    @apply font-bold text-balance
+  }
+
+  .heading1 {
+    @apply text-2xl
+  }
+
+  .heading2 {
+    @apply text-xl
+  }
+
+  .heading3 {
+    @apply text-lg
+  }
+
+  .link {
+    @apply text-blue-500 hover:underline
+  } 
+}
