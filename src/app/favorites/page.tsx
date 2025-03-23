@@ -12,7 +12,7 @@ export default function PageFavorites() {
   if (!hasHydrated) {
     return (
       <main className="container grid place-content-center gap-8 mx-auto md:max-w-6xl">
-        <Loading type="default" />
+        <Loading variant="default" />
       </main>
     );
   }
