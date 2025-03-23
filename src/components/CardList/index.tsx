@@ -1,3 +1,5 @@
+import { twMerge } from 'tailwind-merge';
+
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -7,9 +9,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Star } from 'lucide-react';
 
 import useFavoritesStore from '@/store/favorites';
+
+import { avatarList } from '@/utils';
 
 import type { CardListType, CardItemType } from './types';
 
@@ -35,15 +40,32 @@ export function CardList({ data }: CardListType) {
   return (
     <div className="grid grid-cols-3 gap-3">
       {data?.map((item: CardItemType, index: number) => {
+        const cardVariant = item.url.includes('planets')
+          ? avatarList['planets']
+          : avatarList[`${item?.name}`];
         const isFavorite = favorites
           .map((favorite: CardItemType) => favorite.url)
           .includes(item.url);
 
         return (
-          <Card key={`card-${index}`} className='min-w-2xs'>
+          <Card
+            key={`card-${index}`}
+            className={twMerge(
+              'min-w-2xs',
+              item?.name === 'Darth Vader' && 'text-white bg-neutral-500'
+            )}
+          >
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
-                {item?.name}{' '}
+                <div className="flex items-center gap-3">
+                  <Avatar>
+                    <AvatarImage src={cardVariant} />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+
+                  {item?.name}
+                </div>
+
                 <button
                   className="group"
                   onClick={(event) =>
