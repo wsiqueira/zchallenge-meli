@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import type { ResourceSchema } from 'ts-swapi';
 
-type useGetDataTypes = {
+export type useGetDataTypes = {
   param: keyof ResourceSchema;
   query?: string
 };
