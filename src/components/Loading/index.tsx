@@ -17,6 +17,7 @@ export function Loading({variant = 'default'}): LoadingType {
           width={800}
           height={600}
           priority
+          unoptimized
         />
       );
     default:
