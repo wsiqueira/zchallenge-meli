@@ -81,7 +81,11 @@ export function CardList({ data }: CardListType) {
                     }
                   >
                     <Star
-                      className="stroke-gray-200 group-hover:stroke-yellow-400 group-hover:fill-yellow-300 aria-[checked=true]:fill-yellow-300 aria-[checked=true]:stroke-yellow-400 transition duration-200 ease-in-out"
+                      className={twMerge(
+                        'stroke-gray-200 group-hover:stroke-yellow-400 group-hover:fill-yellow-300',
+                        'transition timtransition duration-200 ease-in-out',
+                        'aria-[checked=true]:stroke-yellow-400 aria-[checked=true]:fill-yellow-300'
+                      )}
                       aria-checked={isFavorite}
                     />
                   </button>
