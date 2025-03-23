@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 
 import { ReactQueryProvider } from '@/utils';
-import { Header, Footer } from '@/components';
+import { Header, Footer, Breadcrumb } from '@/components';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -31,8 +31,9 @@ export default function RootLayout({
         className={`min-h-dvh ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ReactQueryProvider>
-          <div className="grid grid-rows-[auto_1fr_auto] gap-8 min-h-dvh">
+          <div className="grid grid-rows-[auto_auto_1fr_auto] gap-8 min-h-dvh">
             <Header />
+            <Breadcrumb />
             {children}
             <Footer />
           </div>
