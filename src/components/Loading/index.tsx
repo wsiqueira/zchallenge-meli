@@ -5,10 +5,10 @@ type LoadingType = React.ReactNode & {
   variant?: 'default' | 'lightsaber' | 'spaceship';
 };
 
-export function Loading({variant = 'default'}): LoadingType { 
+export function Loading({ variant = 'default' }): LoadingType {
   switch (variant) {
     case 'lightsaber':
-      return <div>[lightsaber...]</div>;
+      return <div className="lightsaber" />;
     case 'spaceship':
       return (
         <Image
@@ -21,6 +21,6 @@ export function Loading({variant = 'default'}): LoadingType {
         />
       );
     default:
-      return <LoaderCircle className='animate-spin' />;
+      return <LoaderCircle className="animate-spin" />;
   }
 }
