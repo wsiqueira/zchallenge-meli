@@ -16,6 +16,7 @@ import Tilt from 'react-parallax-tilt';
 
 import useFavoritesStore from '@/store/favorites';
 
+import { acronym } from '@/lib/utils';
 import { avatarList } from '@/utils';
 
 import type { CardListType, CardItemType } from './types';
@@ -38,7 +39,7 @@ export function CardList({ data }: CardListType) {
       favoriteAdd(favorite);
     }
   }
-
+  
   return (
     <div className="grid grid-cols-3 gap-3">
       {data?.map((item: CardItemType, index: number) => {
@@ -68,7 +69,7 @@ export function CardList({ data }: CardListType) {
                   <div className="flex items-center gap-3">
                     <Avatar>
                       <AvatarImage src={cardVariant} />
-                      <AvatarFallback>CN</AvatarFallback>
+                      <AvatarFallback>{acronym(item?.name).toUpperCase()}</AvatarFallback>
                     </Avatar>
 
                     {item?.name}
