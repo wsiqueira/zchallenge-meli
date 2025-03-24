@@ -1,13 +1,23 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 
 import useFavoritesStore from '@/store/favorites';
+
+import { Input } from '@/components/ui/input';
 import { CardList, Loading } from '@/components';
 
 export default function PageFavorites() {
   const favorites = useFavoritesStore((state) => state.favorites);
   const hasHydrated = useFavoritesStore((state) => state._hasHydrated);
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const dataFiltered = favorites?.filter((item) => {
+    if (item.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+      return item;
+    }
+  });
 
   if (!hasHydrated) {
     return (
@@ -28,8 +38,18 @@ export default function PageFavorites() {
         </div>
       ) : (
         <>
-          <div className='flex justify-end'>[INPUT]</div>
-          <CardList data={favorites} />
+          {favorites && (
+            <div className="flex justify-end">
+              <Input
+                type="search"
+                placeholder="Search by name"
+                className="max-w-48"
+                onChange={(event) => setSearchTerm(event.target.value)}
+              />
+            </div>
+          )}
+
+          <CardList data={dataFiltered} />
         </>
       )}
     </main>
