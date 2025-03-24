@@ -60,9 +60,13 @@ export function CardList({ data }: CardListType) {
           >
             <Card
               className={twMerge(
-                'min-w-2xs shadow-md shadow-gray-300/50',
-                item?.name === 'Luke Skywalker' && 'border-blue-300 shadow-blue-300/50',
-                item?.name === 'Darth Vader' && 'border-red-300 shadow-red-300/50',
+                'min-w-2xs shadow-md shadow-gray-300/50 relative z-10',
+                isFavorite &&
+                  item?.name === 'Luke Skywalker' &&
+                  'border-blue-300 shadow-blue-300/50',
+                isFavorite &&
+                  item?.name === 'Darth Vader' &&
+                  'border-red-300 shadow-red-300/50'
                 // item?.name === 'Darth Vader' && 'text-white bg-neutral-500',
               )}
             >
@@ -71,7 +75,9 @@ export function CardList({ data }: CardListType) {
                   <div className="flex items-center gap-3">
                     <Avatar>
                       <AvatarImage src={cardVariant} />
-                      <AvatarFallback>{acronym(item?.name).toUpperCase()}</AvatarFallback>
+                      <AvatarFallback>
+                        {acronym(item?.name).toUpperCase()}
+                      </AvatarFallback>
                     </Avatar>
 
                     {item?.name}
