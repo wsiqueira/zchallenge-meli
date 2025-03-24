@@ -39,7 +39,7 @@ export function CardList({ data }: CardListType) {
       favoriteAdd(favorite);
     }
   }
-  
+
   return (
     <div className="grid grid-cols-3 gap-3">
       {data?.map((item: CardItemType, index: number) => {
@@ -60,8 +60,10 @@ export function CardList({ data }: CardListType) {
           >
             <Card
               className={twMerge(
-                'min-w-2xs',
-                item?.name === 'Darth Vader' && 'text-white bg-neutral-500'
+                'min-w-2xs shadow-md shadow-gray-300/50',
+                item?.name === 'Luke Skywalker' && 'border-blue-300 shadow-blue-300/50',
+                item?.name === 'Darth Vader' && 'border-red-300 shadow-red-300/50',
+                // item?.name === 'Darth Vader' && 'text-white bg-neutral-500',
               )}
             >
               <CardHeader>
