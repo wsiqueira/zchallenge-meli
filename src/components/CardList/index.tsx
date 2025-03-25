@@ -61,6 +61,7 @@ export function CardList({ data }: CardListType) {
           >
             <Card
               className={twMerge(
+                'group/decal',
                 'min-w-2xs shadow-md shadow-gray-300/50 relative z-10',
                 isFavorite &&
                   item?.name === 'Luke Skywalker' &&
@@ -72,33 +73,45 @@ export function CardList({ data }: CardListType) {
               )}
             >
               <CardHeader>
-                <CardTitle className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Avatar>
-                      <AvatarImage src={cardVariant} />
-                      <AvatarFallback>
-                        {acronym(item?.name).toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
+                <CardTitle>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <Avatar>
+                        <AvatarImage src={cardVariant} />
+                        <AvatarFallback>
+                          {acronym(item?.name).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
 
-                    {item?.name}
+                      {item?.name}
+                    </div>
+
+                    <button
+                      className="group/star cursor-pointer"
+                      onClick={(event) =>
+                        handleFavoriteClick(event, item, isFavorite)
+                      }
+                    >
+                      <Star
+                        className={twMerge(
+                          'stroke-gray-200 group-hover/star:stroke-yellow-400 group-hover:fill-yellow-300',
+                          'transition timtransition duration-200 ease-in-out',
+                          'aria-[checked=true]:stroke-yellow-400 aria-[checked=true]:fill-yellow-300'
+                        )}
+                        aria-checked={isFavorite}
+                      />
+                    </button>
                   </div>
-
-                  <button
-                    className="group cursor-pointer"
-                    onClick={(event) =>
-                      handleFavoriteClick(event, item, isFavorite)
-                    }
-                  >
-                    <Star
-                      className={twMerge(
-                        'stroke-gray-200 group-hover:stroke-yellow-400 group-hover:fill-yellow-300',
-                        'transition timtransition duration-200 ease-in-out',
-                        'aria-[checked=true]:stroke-yellow-400 aria-[checked=true]:fill-yellow-300'
-                      )}
-                      aria-checked={isFavorite}
-                    />
-                  </button>
+                  <span
+                    className={twMerge(
+                      'decal',
+                      'group-hover/decal:text-yellow-500 group-hover/decal:before:border-yellow-500 group-hover/decal:after:border-yellow-500 group-hover/decal:before:shadow-[0_0_6px_1px_rgba(255,255,0,0.75)] group-hover/decal:after:shadow-[0_0_6px_1px_rgba(255,255,0,0.75)]',
+                      item?.name === 'Luke Skywalker' &&
+                        'group-hover/decal:text-blue-500 group-hover/decal:before:border-blue-500 group-hover/decal:after:border-blue-500 group-hover/decal:before:shadow-[0_0_6px_1px_rgba(0,0,255,0.75)] group-hover/decal:after:shadow-[0_0_6px_1px_rgba(0,0,255,0.75)]',
+                      item?.name === 'Darth Vader' &&
+                        'group-hover/decal:text-red-500 group-hover/decal:before:border-red-500 group-hover/decal:after:border-red-500 group-hover/decal:before:shadow-[0_0_6px_1px_rgba(255,0,0,0.75)] group-hover/decal:after:shadow-[0_0_6px_1px_rgba(255,0,0,0.75)]'
+                    )}
+                  />
                 </CardTitle>
                 {/* <CardDescription>
                 Deploy your new project in one-click.

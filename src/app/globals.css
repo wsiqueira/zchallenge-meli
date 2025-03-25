@@ -141,6 +141,10 @@
   .link {
     @apply text-blue-500 hover:underline
   } 
+
+  .decal {
+    @apply before:content-[''] before:inline-block before:w-[24px] before:mr-[2px] before:border-y-2 before:border-gray-200 before:rounded-[2px] before:shadow-none after:content-[''] after:inline-block after:w-[4px] after:border-y-2 after:border-gray-200 after:rounded-[2px] after:shadow-none
+  }
 }
 
 .lightsaber {
