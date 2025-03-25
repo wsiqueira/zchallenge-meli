@@ -9,23 +9,22 @@ import { CardList, Pagination, Loading } from '@/components';
 
 export default function PagePlanets() {
   const searchParams = useSearchParams();
-  const page = searchParams.get('page') || '1';
+  const [page] = useState(searchParams.get('page') || '1');
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const query =
+    searchTerm.length >= 2
+      ? `?search=${searchTerm.toLowerCase()}`
+      : `?page=${page}`;
 
   const { data, isLoading, refetch } = useGetData({
     param: 'planets',
-    query: `?page=${page}`,
-  });
-
-  const [searchTerm, setSearchTerm] = useState('');
-  const dataFiltered = data?.results?.filter((item) => {
-    if (item.name.toLowerCase().includes(searchTerm.toLowerCase())) {
-      return item;
-    }
+    query: query,
   });
 
   useEffect(() => {
     refetch();
-  }, [page, refetch]);
+  }, [page, searchTerm, refetch]);
 
   return (
     <main className="container grid place-content-center gap-8 mx-auto md:max-w-6xl">
@@ -37,15 +36,13 @@ export default function PagePlanets() {
             <div className="flex justify-end">
               <Input
                 type="search"
-                placeholder="Search by name"
+                placeholder="Search"
                 className="max-w-48"
                 onChange={(event) => setSearchTerm(event.target.value)}
               />
             </div>
           )}
-
-          <CardList data={dataFiltered} />
-
+          {data && <CardList data={data.results} />}
           {data && <Pagination itemsTotal={data.count} />}
         </>
       )}
