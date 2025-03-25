@@ -33,7 +33,7 @@ export default function PageFavorites() {
         <div className="text-center">
           <h1 className="heading1">You haven't marked your favorites yet!</h1>
           <p>
-            Take a look at the <Link href="/" className="link">Characters</Link> page
+            Take a look at the <Link href="/characters" className="link">Characters</Link> page
           </p>
         </div>
       ) : (
