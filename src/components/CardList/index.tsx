@@ -42,8 +42,9 @@ export function CardList({ data }: CardListType) {
 
   return (
     <div className="grid grid-cols-3 gap-3">
-      {data?.map((item: CardItemType, index: number) => {
-        const cardVariant = item.url.includes('planets')
+      {data.map((item: CardItemType, index: number) => {
+        const hasPlanets = item.url.includes('planets');
+        const cardVariant = hasPlanets
           ? avatarList['planets']
           : avatarList[`${item?.name}`];
         const isFavorite = favorites
