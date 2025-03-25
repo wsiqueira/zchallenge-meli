@@ -46,7 +46,7 @@ export default function PageHome() {
 
           <CardList data={dataFiltered} />
 
-          {data && <Pagination pages={data.count} />}
+          {data && <Pagination itemsTotal={data.count} />}
         </>
       )}
     </main>
