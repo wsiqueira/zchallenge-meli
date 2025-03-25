@@ -21,6 +21,8 @@ import { avatarList } from '@/utils';
 
 import type { CardListType, CardItemType } from './types';
 
+// const dateFormatter = new Intl.DateTimeFormat('en-US', { dateStyle: 'short' });
+
 export function CardList({ data }: CardListType) {
   const favorites = useFavoritesStore((state) => state.favorites);
   const favoriteAdd = useFavoritesStore((state) => state.favoriteAdd);
@@ -118,7 +120,28 @@ export function CardList({ data }: CardListType) {
               </CardDescription> */}
               </CardHeader>
 
-              <CardContent>CardContent</CardContent>
+              <CardContent>
+                <ul>
+                  {Object.entries(item).map(([key, val], index) => {
+                    if (index > 3) return;
+                    if (key === 'name') return;
+
+                    // if (key === 'created') {
+                    //   return (val = dateFormatter.format(val));
+                    // }
+
+                    return (
+                      <li
+                        key={index}
+                        className="grid grid-cols-2 capitalize"
+                      >
+                        <span>{key.replace(/_/g, ' ')}: </span>
+                        <strong>{val}</strong>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </CardContent>
 
               <CardFooter className="flex justify-between">
                 <Button variant="outline">Load more</Button>
