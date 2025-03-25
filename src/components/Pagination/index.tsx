@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import {
@@ -13,17 +14,20 @@ import {
 } from '@/components/ui/pagination';
 
 type PaginationType = {
-  pages: number;
-  size?: number;
+  itemsTotal: number;
+  itemsPerPage?: number;
 };
 
-export function Pagination({ pages, size = 5 }: PaginationType) {
+export function Pagination({
+  itemsTotal = 0,
+  itemsPerPage = 10,
+}: PaginationType) {
   const searchParams = useSearchParams();
   const router = useRouter();
-  
+
   const getParams = (param: string) => {
     return searchParams.get(param) || '1';
-  }
+  };
 
   const setParams = (param: string, index: string) => {
     const params = new URLSearchParams(window.location.search);
@@ -31,36 +35,65 @@ export function Pagination({ pages, size = 5 }: PaginationType) {
     router.push(`?${params.toString()}`);
   };
 
-  const pageCurrent = Number(getParams('page').slice(-1));
-  const pageTotal = pages;
-  const pagePrevious = pageCurrent - 1;
-  const pageNext = pageCurrent + 1;
+  const [pageCurrent, setCurrentPage] = useState(
+    Number(getParams('page').slice(-1))
+  );
+  const totalPages = Math.ceil(itemsTotal / itemsPerPage);
 
-  console.log('pageCurrent', pageCurrent);
-  console.log('pageTotal', pageTotal);
-  console.log('pagePrevious', pagePrevious);
-  console.log('pageNext', pageNext);
-  
-  const paginationSize = size/pages
-  console.log('paginationSize', paginationSize);
-
-  function handlePaginationPrevious(event: React.MouseEvent<HTMLAnchorElement>) {
+  const handlePageChange = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    index: number
+  ) => {
+    event.preventDefault();
     event.stopPropagation();
-    event.nativeEvent.stopImmediatePropagation();
 
-    if (pagePrevious < 1) return;
-    
-    setParams('page', `${pagePrevious}`);
-  }
+    if (index < 1 || index > totalPages) return;
+    setParams('page', index.toString());
+    setCurrentPage(index);
+  };
 
-  function handlePaginationNext(event: React.MouseEvent<HTMLAnchorElement>) {
-    event.stopPropagation();
-    event.nativeEvent.stopImmediatePropagation();
-    
-    if (pageNext >= pageTotal) return;
+  const renderPageNumbers = () => {
+    const pages = [];
+    const leftBound = pageCurrent - 2;
+    const rightBound = pageCurrent + 2;
 
-    setParams('page', `${pageNext}`);
-  }
+    for (let page = 1; page <= totalPages; page++) {
+      if (
+        page === 1 ||
+        page === totalPages ||
+        (page >= leftBound && page <= rightBound)
+      ) {
+        pages.push(page);
+      } else if (
+        (page === leftBound - 1 && leftBound > 2) ||
+        (page === rightBound + 1 && rightBound < totalPages - 1)
+      ) {
+        pages.push('...');
+      }
+    }
+
+    return pages.map((page, index) => {
+      if (page === '...') {
+        return (
+          <PaginationItem key={index}>
+            <PaginationEllipsis />
+          </PaginationItem>
+        );
+      }
+
+      return (
+        <PaginationItem key={index}>
+          <PaginationLink
+            href=""
+            onClick={(event) => handlePageChange(event, Number(page))}
+            isActive={pageCurrent === page}
+          >
+            {page}
+          </PaginationLink>
+        </PaginationItem>
+      );
+    });
+  };
 
   return (
     <UIPagination>
@@ -68,31 +101,20 @@ export function Pagination({ pages, size = 5 }: PaginationType) {
         <PaginationItem>
           <PaginationPrevious
             href=""
-            onClick={handlePaginationPrevious}
-            aria-disabled={pageCurrent <= 1}
-            className='aria-[disabled=true]:pointer-events-none aria-[disabled=true]:opacity-25'
+            onClick={(event) => handlePageChange(event, pageCurrent - 1)}
+            aria-disabled={pageCurrent === 1}
+            className="aria-[disabled=true]:pointer-events-none aria-[disabled=true]:opacity-25"
           />
         </PaginationItem>
-        <PaginationItem>
-          <PaginationLink href="">1</PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink href="" isActive>
-            2
-          </PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink href="">3</PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationEllipsis />
-        </PaginationItem>
+
+        {renderPageNumbers()}
+
         <PaginationItem>
           <PaginationNext
             href=""
-            onClick={handlePaginationNext}
-            aria-disabled={pageCurrent >= pageTotal}
-            className='aria-[disabled=true]:pointer-events-none aria-[disabled=true]:opacity-25'
+            onClick={(event) => handlePageChange(event, pageCurrent + 1)}
+            aria-disabled={pageCurrent === totalPages}
+            className="aria-[disabled=true]:pointer-events-none aria-[disabled=true]:opacity-25"
           />
         </PaginationItem>
       </PaginationContent>
