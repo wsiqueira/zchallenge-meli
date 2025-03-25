@@ -42,10 +42,16 @@ export default function PageFavorites() {
             <div className="flex justify-end">
               <Input
                 type="search"
-                placeholder="Search by name"
+                placeholder="Search"
                 className="max-w-48"
                 onChange={(event) => setSearchTerm(event.target.value)}
               />
+            </div>
+          )}
+          {searchTerm.length >= 2 && dataFiltered.length === 0 && (
+            <div className="text-center">
+              <h1 className="heading1">No results found!</h1>
+              <p>Try another search term</p>
             </div>
           )}
 

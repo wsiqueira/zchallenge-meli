@@ -39,11 +39,18 @@ export default function PageHome() {
                 placeholder="Search"
                 className="max-w-48"
                 onChange={(event) => setSearchTerm(event.target.value)}
+                onBlur={(event) => setSearchTerm(event.target.value)}
               />
             </div>
           )}
-          {data && <CardList data={data.results} />}
-          {data && <Pagination itemsTotal={data.count} />}
+          {searchTerm.length >= 2 && data.results.length === 0 && (
+            <div className="text-center">
+              <h1 className="heading1">No results found!</h1>
+              <p>Try another search term</p>
+            </div>
+          )}
+          {data.results.length > 0 && <CardList data={data.results} />}
+          {data.results.length > 9 && <Pagination itemsTotal={data.count} />}
         </>
       )}
     </main>
