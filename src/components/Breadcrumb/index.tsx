@@ -17,15 +17,13 @@ export function Breadcrumb() {
   const pathNames = paths.split('/').filter((path) => path);
   const isRoot = pathNames.length > 0;
 
+  if(!isRoot) return <div className="container flex items-center justify-between mx-auto -mt-6" />
+
   return (
     <UIBreadcrumb className="container flex items-center justify-between mx-auto -mt-6">
       <BreadcrumbList>
         <BreadcrumbItem>
-          {isRoot ? (
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
-          ) : (
-            <BreadcrumbPage>Characters</BreadcrumbPage>
-          )}
+          <BreadcrumbLink href="/">Home</BreadcrumbLink>
         </BreadcrumbItem>
 
         {pathNames.map((item, index) => {
@@ -38,9 +36,9 @@ export function Breadcrumb() {
 
               <BreadcrumbItem>
                 {lastItem !== index ? (
-                  <BreadcrumbLink href={href}>{item}</BreadcrumbLink>
+                  <BreadcrumbLink href={href} className='capitalize'>{item}</BreadcrumbLink>
                 ) : (
-                  <BreadcrumbPage>{item}</BreadcrumbPage>
+                  <BreadcrumbPage className='capitalize'>{item}</BreadcrumbPage>
                 )}
               </BreadcrumbItem>
             </Fragment>

@@ -8,7 +8,7 @@ import Image from 'next/image';
 import { HeaderNav } from './HeaderNav';
 
 const headerNavData = [
-  { href: '/', label: 'Characters' },
+  { href: '/characters', label: 'Characters' },
   { href: '/planets', label: 'Planets' },
   { href: '/favorites', label: 'Favorites' },
 ];
