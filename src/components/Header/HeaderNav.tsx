@@ -13,14 +13,15 @@ import {
   // NavigationMenuViewport,
 } from '@/components/ui/navigation-menu';
 
+import type { NavigationMenuProps } from "@radix-ui/react-navigation-menu";
 import type { HeaderNavType, NavItemType } from './types';
 
-export function HeaderNav({ data }: HeaderNavType) {
+export function HeaderNav({ data, ...props }: HeaderNavType & NavigationMenuProps) {
   const pathname = usePathname();
 
   return (
-    <NavigationMenu>
-      <NavigationMenuList>
+    <NavigationMenu {...props}>
+      <NavigationMenuList className='flex-col md:flex-row items-end justify-start'>
         {data.map((item: NavItemType, index: number) => {
           const isActive = item.href === pathname;
 
