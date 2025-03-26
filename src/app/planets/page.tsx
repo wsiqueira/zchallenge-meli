@@ -2,29 +2,50 @@
 
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { useGetData } from '@/hooks';
+import { useGetData, useSetData } from '@/hooks';
 
 import { Input } from '@/components/ui/input';
 import { CardList, Pagination, Loading } from '@/components';
 
 export default function PagePlanets() {
   const searchParams = useSearchParams();
-  const [page] = useState(searchParams.get('page') || '1');
+  const page = searchParams.get('page') || '1';
   const [searchTerm, setSearchTerm] = useState('');
-
-  const query =
-    searchTerm.length >= 2
-      ? `?search=${searchTerm.toLowerCase()}`
-      : `?page=${page}`;
 
   const { data, isLoading, refetch } = useGetData({
     param: 'planets',
-    query: query,
+    query: `?page=${page}`,
   });
+
+  const dataUpdate = useSetData({
+    param: 'planets',
+    query: `?search=${searchTerm}`,
+  });
+
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    event.preventDefault();
+    const inputValue = event.target.value;
+
+    if (inputValue.length >= 2) {
+      dataUpdate.mutateAsync({
+        param: 'planets',
+        query: `?search=${inputValue}`,
+      });
+    }
+
+    if (inputValue.length === 0) {
+      dataUpdate.mutateAsync({
+        param: 'planets',
+        query: `?page=${page}`,
+      });
+    }
+
+    setSearchTerm(inputValue);
+  }
 
   useEffect(() => {
     refetch();
-  }, [page, searchTerm, refetch]);
+  }, [page, refetch]);
 
   return (
     <main className="container grid place-content-center gap-8 mx-auto md:max-w-6xl">
@@ -38,8 +59,7 @@ export default function PagePlanets() {
                 type="search"
                 placeholder="Search"
                 className="max-w-48"
-                onChange={(event) => setSearchTerm(event.target.value)}
-                onBlur={(event) => setSearchTerm(event.target.value)}
+                onChange={handleChange}
               />
             </div>
           )}
