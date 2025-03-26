@@ -42,7 +42,7 @@ export function CardList({ data }: CardListType) {
   }
 
   return (
-    <div className="grid grid-cols-3 gap-3">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
       {data.map((item: CardItemType, index: number) => {
         const hasPlanets = item.url.includes('planets');
         const cardVariant = hasPlanets
