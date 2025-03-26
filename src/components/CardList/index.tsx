@@ -2,10 +2,11 @@
 
 import { twMerge } from 'tailwind-merge';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 import {
   Card,
   CardContent,
-  CardDescription,
+  // CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -20,8 +21,6 @@ import { acronym } from '@/lib/utils';
 import { avatarList } from '@/utils';
 
 import type { CardListType, CardItemType } from './types';
-
-// const dateFormatter = new Intl.DateTimeFormat('en-US', { dateStyle: 'short' });
 
 export function CardList({ data }: CardListType) {
   const favorites = useFavoritesStore((state) => state.favorites);
@@ -52,6 +51,11 @@ export function CardList({ data }: CardListType) {
         const isFavorite = favorites
           .map((favorite: CardItemType) => favorite.url)
           .includes(item.url);
+
+        const isPeople = item.url.includes('people');
+        const hrefFix = isPeople
+          ? item?.url.replace('https://swapi.dev/api/people', '/characters')
+          : item?.url.replace('https://swapi.dev/api/', '');
 
         return (
           <Tilt
@@ -115,9 +119,6 @@ export function CardList({ data }: CardListType) {
                     )}
                   />
                 </CardTitle>
-                {/* <CardDescription>
-                Deploy your new project in one-click.
-              </CardDescription> */}
               </CardHeader>
 
               <CardContent>
@@ -126,15 +127,8 @@ export function CardList({ data }: CardListType) {
                     if (index > 3) return;
                     if (key === 'name') return;
 
-                    // if (key === 'created') {
-                    //   return (val = dateFormatter.format(val));
-                    // }
-
                     return (
-                      <li
-                        key={index}
-                        className="grid grid-cols-2 capitalize"
-                      >
+                      <li key={index} className="grid grid-cols-2 capitalize">
                         <span>{key.replace(/_/g, ' ')}: </span>
                         <strong>{val}</strong>
                       </li>
@@ -144,7 +138,9 @@ export function CardList({ data }: CardListType) {
               </CardContent>
 
               <CardFooter className="flex justify-between">
-                <Button variant="outline">Load more</Button>
+                <Button variant="outline" asChild>
+                  <Link href={hrefFix}>More</Link>
+                </Button>
               </CardFooter>
             </Card>
           </Tilt>
