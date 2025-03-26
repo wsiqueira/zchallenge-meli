@@ -29,9 +29,15 @@ export function Pagination({
     return searchParams.get(param) || '1';
   };
 
-  const setParams = (param: string, index: string) => {
+  const setParams = (param: string, value: string) => {
     const params = new URLSearchParams(window.location.search);
-    params.set(param, index);
+
+    if (value !== '') {
+      params.set(param, value);
+    } else {
+      params.delete(param);
+    }
+
     router.push(`?${params.toString()}`);
   };
 
