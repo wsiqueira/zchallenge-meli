@@ -1,2 +1,2 @@
-export { useGetData } from './useGetData';
-export type { useGetDataTypes } from './useGetData';
+export { useGetData, useSetData } from './useFetchData';
+export type { useFetchDataType } from './useFetchData';
