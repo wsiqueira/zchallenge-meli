@@ -43,7 +43,7 @@ export default function PageFavorites() {
               <Input
                 type="search"
                 placeholder="Search"
-                className="max-w-48"
+                className="md:max-w-48"
                 onChange={(event) => setSearchTerm(event.target.value)}
               />
             </div>

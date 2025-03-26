@@ -58,7 +58,7 @@ export default function PageCharacters() {
               <Input
                 type="search"
                 placeholder="Search"
-                className="max-w-48"
+                className="md:max-w-48"
                 onChange={handleChange}
               />
             </div>
