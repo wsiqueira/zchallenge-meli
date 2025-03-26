@@ -69,7 +69,7 @@ export default async function PageCharacter({
         </ul>
         <div className="p-4 border-t mx-8 mt-2">
           <Button className="w-full" asChild>
-            <Link href="/characters">Voltar</Link>
+            <Link href="/characters">Back</Link>
           </Button>
         </div>
       </div>
