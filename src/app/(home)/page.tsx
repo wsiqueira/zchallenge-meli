@@ -16,7 +16,7 @@ export default function PageHome() {
               The Star Wars API (SWAPI)
             </h1>
             <p className="text-xl leading-relaxed tracking-tight text-muted-foreground max-w-md text-left">
-              The Star Wars API, or "swapi" (Swah-pee) is the world's first
+              The Star Wars API, or &quot;swapi&quot; (Swah-pee) is the world&apos;s first
               quantified and programmatically-accessible data source for all the
               data from the Star Wars canon universe!
             </p>

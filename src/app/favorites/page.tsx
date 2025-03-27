@@ -31,7 +31,7 @@ export default function PageFavorites() {
     <main className="container grid place-content-center gap-8 mx-auto md:max-w-6xl">
       {favorites.length === 0 ? (
         <div className="text-center">
-          <h1 className="heading1">You haven't marked your favorites yet!</h1>
+          <h1 className="heading1">You haven&apos;t marked your favorites yet!</h1>
           <p>
             Take a look at the <Link href="/characters" className="link">Characters</Link> page
           </p>
