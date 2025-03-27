@@ -10,9 +10,22 @@ export function acronym(value: string) {
   const arrayFirt = array!.slice(0, 1);
   const arrayLast = array!.slice(-1);
 
-  if(array!.length > 1) {
+  if (array!.length > 1) {
     return [...arrayFirt, ...arrayLast].join('');
   }
 
   return [...arrayFirt].join('');
+}
+
+export function dateFormatter(
+  value: string | number | Date,
+  locales: string = 'en-US',
+  options: Intl.DateTimeFormatOptions = {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  }
+): string {
+  const date = new Date(value);
+  return new Intl.DateTimeFormat(locales, options).format(date);
 }
