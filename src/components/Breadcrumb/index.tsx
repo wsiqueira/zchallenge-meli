@@ -23,7 +23,7 @@ export function Breadcrumb() {
     <UIBreadcrumb className="container flex items-center justify-between mx-auto -mt-6 px-4 md:px-0">
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          <BreadcrumbLink href="/" className='capitalize'>home</BreadcrumbLink>
         </BreadcrumbItem>
 
         {pathNames.map((item, index) => {
