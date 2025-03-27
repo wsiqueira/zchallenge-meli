@@ -26,6 +26,5 @@ export function dateFormatter(
     year: 'numeric',
   }
 ): string {
-  const date = new Date(value);
-  return new Intl.DateTimeFormat(locales, options).format(date);
+  return new Intl.DateTimeFormat(locales, options).format(new Date(value));
 }
