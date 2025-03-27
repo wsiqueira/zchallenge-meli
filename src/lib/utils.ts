@@ -5,6 +5,17 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export async function dataFetch(
+  url: string,
+  options: RequestInit = {
+    cache: 'force-cache',
+  }
+) {
+  return await fetch(url, options)
+    .then((response) => response.json())
+    .then((data) => data);
+}
+
 export function acronym(value: string) {
   const array = value?.match(/\b(\w)/g);
   const arrayFirt = array!.slice(0, 1);
