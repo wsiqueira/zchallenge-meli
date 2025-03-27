@@ -9,7 +9,7 @@ export default function PageHome() {
   return (
     <main className="container grid place-content-center gap-8 mx-auto md:max-w-6xl">
       <div className="grid grid-cols-1 gap-8 items-center lg:grid-cols-2">
-        <div className="flex gap-4 flex-col">
+        <div className="flex p-4 md:p-0 gap-4 flex-col">
           <div>{/* <Badge variant="outline">We&apos;re live!</Badge> */}</div>
           <div className="flex gap-4 flex-col">
             <h1 className="text-5xl md:text-7xl max-w-lg tracking-tighter text-left font-regular">
@@ -21,7 +21,7 @@ export default function PageHome() {
               data from the Star Wars canon universe!
             </p>
           </div>
-          <div className="flex flex-row gap-4">
+          <div className="flex flex-row justify-center md:justify-start gap-4">
             <Button
               size="lg"
               className="gap-4 transition-shadow delay-150 duration-200 ease-in-out hover:shadow-[0_0_6px_1px_rgba(0,0,255,0.75)]"
