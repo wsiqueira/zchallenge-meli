@@ -7,7 +7,7 @@ jest.mock('next/navigation', () => ({
   usePathname: jest.fn(),
 }));
 
-describe('Breadcrumb', () => {
+describe('Breadcrumb component', () => {
   it('should not render breadcrumbs when path is root', () => {
     usePathname.mockReturnValue('/');
 
