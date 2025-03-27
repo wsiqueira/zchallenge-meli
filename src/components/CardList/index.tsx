@@ -68,7 +68,7 @@ export function CardList({ data }: CardListType) {
             <Card
               className={twMerge(
                 'group/decal',
-                'min-w-2xs shadow-md shadow-gray-300/50 relative z-10',
+                'min-w-2xs border-0 shadow-md shadow-gray-300/50 relative z-10',
                 isFavorite &&
                   item?.name === 'Luke Skywalker' &&
                   'border-blue-300 shadow-blue-300/50',
