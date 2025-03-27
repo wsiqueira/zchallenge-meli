@@ -19,46 +19,31 @@ import { MoveLeft } from 'lucide-react';
 
 import { LinkList } from '@/components';
 
-import type { People } from 'ts-swapi';
+import type { Planet } from 'ts-swapi';
 
-type Params = Promise<{ characterId: string }>;
+type Params = Promise<{ planetId: string }>;
 
-export default async function PageCharacter({ params }: { params: Params }) {
-  const { characterId } = await params;
-  const data: People = await fetch(
-    `https://swapi.dev/api/people/${characterId}`,
+export default async function PagePlanet({ params }: { params: Params }) {
+  const { planetId } = await params;
+  const data: Planet = await fetch(
+    `https://swapi.dev/api/planets/${planetId}`,
     {
       cache: 'force-cache',
     }
   ).then((response) => response.json());
 
   const dataUpdated = Object.assign({}, data, {
-    homeworld: LinkList({
-      data: [data.homeworld],
+    residents: LinkList({
+      data: data.residents,
       href: '',
       className: 'link text-xs block lowercase',
       hrefReplace: {
-        termFind: 'https://swapi.dev/api',
-        termReplace: '',
+        termFind: 'https://swapi.dev/api/people',
+        termReplace: '/characters',
       },
     }),
     films: LinkList({
       data: data.films,
-      href: '',
-      className: 'text-xs block lowercase pointer-events-none',
-    }),
-    species: LinkList({
-      data: data.species,
-      href: '',
-      className: 'text-xs block lowercase pointer-events-none',
-    }),
-    vehicles: LinkList({
-      data: data.vehicles,
-      href: '',
-      className: 'text-xs block lowercase pointer-events-none',
-    }),
-    starships: LinkList({
-      data: data.starships,
       href: '',
       className: 'text-xs block lowercase pointer-events-none',
     }),
@@ -89,7 +74,7 @@ export default async function PageCharacter({ params }: { params: Params }) {
               <div className="flex items-center gap-3">
                 <Avatar className="w-24 h-24 bg-white border-4 border-white rounded-full">
                   <AvatarImage
-                    src={avatarList[`${dataUpdated?.name}`]}
+                    src={avatarList['planets']}
                     width={255}
                     height={255}
                   />
@@ -129,7 +114,7 @@ export default async function PageCharacter({ params }: { params: Params }) {
         </CardContent>
         <CardFooter>
           <Button asChild>
-            <Link href="/characters">
+            <Link href="/planets">
               <MoveLeft className="w-4 h-4" /> Back
             </Link>
           </Button>

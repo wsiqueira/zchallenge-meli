@@ -72,9 +72,9 @@ export function Header() {
         <HeaderNav
           data={headerNavData}
           className={twMerge(
-            'bg-neutral-100 h-screen md:h-auto p-4 md:p-0 absolute md:static top-0 right-0 z-10',
+            'bg-neutral-100 w-0 md:w-auto h-screen md:h-auto absolute md:static top-0 right-0 z-10 overflow-hidden',
             'transition-transform duration-200 translate-x-full md:translate-x-0',
-            'aria-[checked=true]:translate-x-0',
+            'aria-[checked=true]:translate-x-0 aria-[checked=true]:w-auto aria-[checked=true]:p-4',
           )}
           
           aria-checked={isOpen}
