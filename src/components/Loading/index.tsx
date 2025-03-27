@@ -8,7 +8,7 @@ type LoadingType = React.ReactNode & {
 export function Loading({ variant = 'default' }): LoadingType {
   switch (variant) {
     case 'lightsaber':
-      return <div className="lightsaber" />;
+      return <div className="lightsaber" data-testid="loading-lightsaber" />;
     case 'spaceship':
       return (
         <Image
@@ -18,9 +18,10 @@ export function Loading({ variant = 'default' }): LoadingType {
           height={600}
           priority
           unoptimized
+          data-testid="loading-spaceship"
         />
       );
     default:
-      return <LoaderCircle className="animate-spin" />;
+      return <LoaderCircle className="animate-spin" data-testid="loading-default" />;
   }
 }
