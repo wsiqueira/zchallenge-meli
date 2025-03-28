@@ -1,7 +1,9 @@
 'use client';
 
-import { Fragment } from 'react';
+import { useState, Fragment, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
+
+import { dataFetch } from '@/lib/utils';
 
 import {
   Breadcrumb as UIBreadcrumb,
@@ -17,7 +19,20 @@ export function Breadcrumb() {
   const pathNames = paths.split('/').filter((path) => path);
   const isRoot = pathNames.length > 0;
 
-  if(!isRoot) return <div className="container flex items-center justify-between mx-auto -mt-6" />
+  const [labelNew, setLabelNew] = useState('');
+
+  const getLabel = async (param: string) => {
+    const value = await dataFetch(`https://swapi.dev/api/${param}`);
+    setLabelNew(value.name);
+  };
+
+  useEffect(() => {
+    if (!pathNames.includes('favorites')) {
+      getLabel(`${pathNames.join('/').replace('characters', 'people')}`);
+    }
+  }, [pathNames]);
+
+  if (!isRoot) return <div />;
 
   return (
     <UIBreadcrumb className="container flex items-center justify-between mx-auto -mt-6 px-4 md:px-0">
@@ -36,9 +51,13 @@ export function Breadcrumb() {
 
               <BreadcrumbItem>
                 {lastItem !== index ? (
-                  <BreadcrumbLink href={href} className='capitalize'>{item}</BreadcrumbLink>
+                  <BreadcrumbLink href={href} className="capitalize">
+                    {item}
+                  </BreadcrumbLink>
                 ) : (
-                  <BreadcrumbPage className='capitalize'>{item}</BreadcrumbPage>
+                  <BreadcrumbPage className="capitalize">
+                    {lastItem === index && item.length < 3 ? labelNew : item}
+                  </BreadcrumbPage>
                 )}
               </BreadcrumbItem>
             </Fragment>
