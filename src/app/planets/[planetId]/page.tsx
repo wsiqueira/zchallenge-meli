@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import { twMerge } from 'tailwind-merge';
-import { acronym, dateFormatter } from '@/lib/utils';
+import { dataFetch, acronym, dateFormatter } from '@/lib/utils';
 import { avatarList } from '@/utils';
 
 import { Button } from '@/components/ui/button';
@@ -25,18 +25,15 @@ type Params = Promise<{ planetId: string }>;
 
 export default async function PagePlanet({ params }: { params: Params }) {
   const { planetId } = await params;
-  const data: Planet = await fetch(
-    `https://swapi.dev/api/planets/${planetId}`,
-    {
-      cache: 'force-cache',
-    }
-  ).then((response) => response.json());
+  const data: Planet = await dataFetch(
+    `https://swapi.dev/api/planets/${planetId}`
+  );
 
   const dataUpdated = Object.assign({}, data, {
     residents: LinkList({
       data: data.residents,
       href: '',
-      className: 'link text-xs block lowercase',
+      className: 'link text-xs block',
       hrefReplace: {
         termFind: 'https://swapi.dev/api/people',
         termReplace: '/characters',
@@ -45,7 +42,7 @@ export default async function PagePlanet({ params }: { params: Params }) {
     films: LinkList({
       data: data.films,
       href: '',
-      className: 'text-xs block lowercase pointer-events-none',
+      className: 'text-xs block pointer-events-none',
     }),
     created: dateFormatter(data.created),
     edited: dateFormatter(data.edited),
@@ -55,13 +52,13 @@ export default async function PagePlanet({ params }: { params: Params }) {
     <main className="container grid place-content-center gap-8 mx-auto md:max-w-6xl">
       <Card className="md:w-2xl border-0 relative overflow-hidden">
         <CardHeader>
-          <div className="w-full h-80 relative -mt-44 scale-125 bg-gray-200 overflow-hidden">
+          <div className="relative -mt-6 -mb-8 scale-x-125 bg-gray-200">
             <Image
               src={`https://picsum.photos/seed/${dataUpdated?.name
                 .replace(' ', '')
-                .toLowerCase()}/640/480`}
-              width={400}
-              height={400}
+                .toLowerCase()}/672/266`}
+              width={672}
+              height={266}
               alt="Random pictures"
               style={{
                 width: '100%',
@@ -70,9 +67,9 @@ export default async function PagePlanet({ params }: { params: Params }) {
             />
           </div>
           <CardTitle>
-            <div className="flex items-center justify-between mt-1">
+            <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <Avatar className="w-24 h-24 bg-white border-4 border-white rounded-full">
+                <Avatar className="w-20 h-20 md:w-24 md:h-24 bg-white border-4 border-white rounded-full">
                   <AvatarImage
                     src={avatarList['planets']}
                     width={255}
