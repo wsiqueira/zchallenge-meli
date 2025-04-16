@@ -5,7 +5,7 @@ import { dataFetch } from '@/lib/utils';
 import type { LinkListType } from './types';
 
 export function LinkList({ data, hrefReplace, ...props }: LinkListType) {
-  return data.map(async (item, index) => {
+  return data?.map(async (item, index) => {
     const label = await dataFetch(item);
     const hrefNew = item.replace(
       `${hrefReplace?.termFind}`,

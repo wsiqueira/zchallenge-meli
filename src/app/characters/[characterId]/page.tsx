@@ -21,46 +21,67 @@ import { LinkList } from '@/components';
 
 import type { People } from 'ts-swapi';
 
+type PeopleProperties = People & {
+  result: {
+    properties: People;
+    description: string;
+  };
+};
 type Params = Promise<{ characterId: string }>;
+
+const api = process.env.NEXT_PUBLIC_API_HOST;
 
 export default async function PageCharacter({ params }: { params: Params }) {
   const { characterId } = await params;
-  const data: People = await dataFetch(
-    `https://swapi.dev/api/people/${characterId}`
+  const data: PeopleProperties = await dataFetch(
+    `${api}/people/${characterId}`
   );
 
-  const dataUpdated = Object.assign({}, data, {
+  const dataChecker = data.result.hasOwnProperty('properties')
+    ? data.result.properties
+    : data;
+  const dataUpdated = Object.assign({}, dataChecker, {
     homeworld: LinkList({
-      data: [data.homeworld],
+      data: [dataChecker?.homeworld],
       href: '',
       className: 'link text-xs block',
       hrefReplace: {
-        termFind: 'https://swapi.dev/api',
+        termFind: `${api}`,
         termReplace: '',
       },
     }),
-    films: LinkList({
-      data: data.films,
-      href: '',
-      className: 'text-xs block pointer-events-none',
+
+    ...(dataChecker?.films && {
+      films: LinkList({
+        data: dataChecker?.films,
+        href: '',
+        className: 'text-xs block pointer-events-none',
+      }),
     }),
-    species: LinkList({
-      data: data.species,
-      href: '',
-      className: 'text-xs block pointer-events-none',
+    ...(dataChecker?.species && {
+      species: LinkList({
+        data: dataChecker?.species,
+        href: '',
+        className: 'text-xs block pointer-events-none',
+      }),
     }),
-    vehicles: LinkList({
-      data: data.vehicles,
-      href: '',
-      className: 'text-xs block pointer-events-none',
+    ...(dataChecker?.vehicles && {
+      vehicles: LinkList({
+        data: dataChecker?.vehicles,
+        href: '',
+        className: 'text-xs block pointer-events-none',
+      }),
     }),
-    starships: LinkList({
-      data: data.starships,
-      href: '',
-      className: 'text-xs block pointer-events-none',
+    ...(dataChecker?.starships && {
+      starships: LinkList({
+        data: dataChecker?.starships,
+        href: '',
+        className: 'text-xs block pointer-events-none',
+      }),
     }),
-    created: dateFormatter(data.created),
-    edited: dateFormatter(data.edited),
+
+    created: dateFormatter(dataChecker.created),
+    edited: dateFormatter(dataChecker.edited),
   });
 
   return (
@@ -116,7 +137,7 @@ export default async function PageCharacter({ params }: { params: Params }) {
               if (key === 'name' || key === 'url') return;
 
               return (
-                <li key={index} className="grid grid-cols-2 capitalize">
+                <li key={index} className="grid grid-cols-2 capitalize line-clamp-1">
                   <span>{key.replace(/_/g, ' ')}: </span>
                   <strong>{val}</strong>
                 </li>

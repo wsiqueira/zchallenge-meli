@@ -14,6 +14,8 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 
+const api = process.env.NEXT_PUBLIC_API_HOST;
+
 export function Breadcrumb() {
   const paths = usePathname();
   const pathNames = paths.split('/').filter((path) => path);
@@ -22,8 +24,13 @@ export function Breadcrumb() {
   const [labelNew, setLabelNew] = useState('');
 
   const getLabel = async (param: string) => {
-    const value = await dataFetch(`https://swapi.dev/api/${param}`);
-    setLabelNew(value.name);
+    const value = await dataFetch(`${api}/${param}`);
+
+    if(value?.result?.hasOwnProperty('properties')) {
+      setLabelNew(value?.result.properties.name);
+    } else {
+      setLabelNew(value?.name);
+    }
   };
 
   useEffect(() => {

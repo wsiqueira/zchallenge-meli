@@ -22,6 +22,8 @@ import { avatarList } from '@/utils';
 
 import type { CardListType, CardItemType } from './types';
 
+const api = process.env.NEXT_PUBLIC_API_HOST;
+
 export function CardList({ data }: CardListType) {
   const favorites = useFavoritesStore((state) => state.favorites);
   const favoriteAdd = useFavoritesStore((state) => state.favoriteAdd);
@@ -43,19 +45,23 @@ export function CardList({ data }: CardListType) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-      {data.map((item: CardItemType, index: number) => {
-        const hasPlanets = item.url.includes('planets');
+      {data?.map((item: CardItemType, index: number) => {
+        const itemChecker = item.hasOwnProperty('properties')
+          ? item.properties
+          : item;
+
+        const hasPlanets = itemChecker?.url.includes('planets');
         const cardVariant = hasPlanets
           ? avatarList['planets']
-          : avatarList[`${item?.name}`];
+          : avatarList[`${itemChecker?.name}`];
         const isFavorite = favorites
-          .map((favorite: CardItemType) => favorite.url)
-          .includes(item.url);
+          .map((favorite: CardItemType) => favorite?.url)
+          .includes(`${itemChecker?.url}`);
 
-        const isPeople = item.url.includes('people');
+        const isPeople = itemChecker?.url.includes('people');
         const hrefFix = isPeople
-          ? item?.url.replace('https://swapi.dev/api/people', '/characters')
-          : item?.url.replace('https://swapi.dev/api/', '');
+          ? itemChecker?.url.replace(`${api}/people`, '/characters')
+          : itemChecker?.url.replace(`${api}/`, '');
 
         return (
           <Tilt
@@ -70,10 +76,10 @@ export function CardList({ data }: CardListType) {
                 'group/decal',
                 'min-w-2xs border-0 shadow-md shadow-gray-300/50 relative z-10',
                 isFavorite &&
-                  item?.name === 'Luke Skywalker' &&
+                  itemChecker?.name === 'Luke Skywalker' &&
                   'border-blue-300 shadow-blue-300/50',
                 isFavorite &&
-                  item?.name === 'Darth Vader' &&
+                  itemChecker?.name === 'Darth Vader' &&
                   'border-red-300 shadow-red-300/50'
                 // item?.name === 'Darth Vader' && 'text-white bg-neutral-500',
               )}
@@ -85,17 +91,17 @@ export function CardList({ data }: CardListType) {
                       <Avatar>
                         <AvatarImage src={cardVariant} />
                         <AvatarFallback>
-                          {acronym(item?.name).toUpperCase()}
+                          {acronym(`${itemChecker?.name}`).toUpperCase()}
                         </AvatarFallback>
                       </Avatar>
 
-                      {item?.name}
+                      {itemChecker?.name}
                     </div>
 
                     <button
                       className="group/star cursor-pointer"
                       onClick={(event) =>
-                        handleFavoriteClick(event, item, isFavorite)
+                        handleFavoriteClick(event, itemChecker!, isFavorite)
                       }
                     >
                       <Star
@@ -112,9 +118,9 @@ export function CardList({ data }: CardListType) {
                     className={twMerge(
                       'decal',
                       'group-hover/decal:text-yellow-500 group-hover/decal:before:border-yellow-500 group-hover/decal:after:border-yellow-500 group-hover/decal:before:shadow-[0_0_6px_1px_rgba(255,255,0,0.75)] group-hover/decal:after:shadow-[0_0_6px_1px_rgba(255,255,0,0.75)]',
-                      item?.name === 'Luke Skywalker' &&
+                      itemChecker?.name === 'Luke Skywalker' &&
                         'group-hover/decal:text-blue-500 group-hover/decal:before:border-blue-500 group-hover/decal:after:border-blue-500 group-hover/decal:before:shadow-[0_0_6px_1px_rgba(0,0,255,0.75)] group-hover/decal:after:shadow-[0_0_6px_1px_rgba(0,0,255,0.75)]',
-                      item?.name === 'Darth Vader' &&
+                      itemChecker?.name === 'Darth Vader' &&
                         'group-hover/decal:text-red-500 group-hover/decal:before:border-red-500 group-hover/decal:after:border-red-500 group-hover/decal:before:shadow-[0_0_6px_1px_rgba(255,0,0,0.75)] group-hover/decal:after:shadow-[0_0_6px_1px_rgba(255,0,0,0.75)]'
                     )}
                   />
@@ -123,9 +129,24 @@ export function CardList({ data }: CardListType) {
 
               <CardContent>
                 <ul>
-                  {Object.entries(item).map(([key, val], index) => {
-                    if (index > 3) return;
-                    if (key === 'name') return;
+                  {Object.entries(itemChecker!).map(([key, val], index) => {
+                    if (
+                      // index > 3 ||
+                      key === 'name' ||
+                      key === 'url' ||
+                      key === 'created' ||
+                      key === 'edited' ||
+                      key === 'gender' ||
+                      key === 'homeworld' ||
+                      key === 'hair_color' ||
+                      key === 'skin_color' ||
+                      key === 'gravity' ||
+                      key === 'terrain' ||
+                      key === 'rotation_period' ||
+                      key === 'orbital_period' ||
+                      key === 'uid'
+                    )
+                      return;
 
                     return (
                       <li key={index} className="grid grid-cols-2 capitalize">
@@ -139,7 +160,7 @@ export function CardList({ data }: CardListType) {
 
               <CardFooter className="flex justify-between">
                 <Button variant="outline" asChild>
-                  <Link href={hrefFix}>More</Link>
+                  <Link href={`${hrefFix}`}>More</Link>
                 </Button>
               </CardFooter>
             </Card>

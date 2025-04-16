@@ -7,12 +7,14 @@ export type useFetchDataType = {
   query?: string;
 };
 
+const api = process.env.NEXT_PUBLIC_API_HOST
+
 export const useGetData = ({ param, query }: useFetchDataType) => {
   return useQuery({
     queryKey: [`${param}`, param],
     queryFn: async () => {
       const res = await fetch(
-        `https://swapi.dev/api/${param}${query ? `/${query}` : ''}`
+        `${api}/${param}${query ? `/${query}` : ''}`
       );
       return await res.json();
     },
@@ -25,7 +27,7 @@ export const useSetData = ({ param, query }: useFetchDataType) => {
   return useMutation({
     mutationFn: async ({ param, query }: useFetchDataType) => {
       const res = await fetch(
-        `https://swapi.dev/api/${param}${query ? `/${query}` : ''}`
+        `${api}/${param}${query ? `/${query}` : ''}`
       );
       return await res.json();
     },

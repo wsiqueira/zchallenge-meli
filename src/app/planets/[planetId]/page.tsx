@@ -21,31 +21,45 @@ import { LinkList } from '@/components';
 
 import type { Planet } from 'ts-swapi';
 
+type PlanetProperties = Planet & {
+  result: {
+    properties: Planet;
+  };
+};
 type Params = Promise<{ planetId: string }>;
+
+const api = process.env.NEXT_PUBLIC_API_HOST;
 
 export default async function PagePlanet({ params }: { params: Params }) {
   const { planetId } = await params;
-  const data: Planet = await dataFetch(
-    `https://swapi.dev/api/planets/${planetId}`
-  );
+  const data: PlanetProperties = await dataFetch(`${api}/planets/${planetId}`);
 
-  const dataUpdated = Object.assign({}, data, {
-    residents: LinkList({
-      data: data.residents,
-      href: '',
-      className: 'link text-xs block',
-      hrefReplace: {
-        termFind: 'https://swapi.dev/api/people',
-        termReplace: '/characters',
-      },
+  const dataChecker = data.result.hasOwnProperty('properties')
+    ? data.result.properties
+    : data;
+  const dataUpdated = Object.assign({}, dataChecker, {
+    ...(dataChecker?.residents && {
+      residents: LinkList({
+        data: dataChecker.residents,
+        href: '',
+        className: 'link text-xs block',
+        hrefReplace: {
+          termFind: `${api}/people`,
+          termReplace: '/characters',
+        },
+      }),
     }),
-    films: LinkList({
-      data: data.films,
-      href: '',
-      className: 'text-xs block pointer-events-none',
+
+    ...(dataChecker?.films && {
+      films: LinkList({
+        data: dataChecker?.films,
+        href: '',
+        className: 'text-xs block pointer-events-none',
+      }),
     }),
-    created: dateFormatter(data.created),
-    edited: dateFormatter(data.edited),
+
+    created: dateFormatter(dataChecker.created),
+    edited: dateFormatter(dataChecker.edited),
   });
 
   return (
