@@ -4,9 +4,18 @@ import { dataFetch } from '@/lib/utils';
 
 import type { LinkListType } from './types';
 
+const api = process.env.NEXT_PUBLIC_API_HOST;
+const isTech = api?.includes('tech');
+
 export function LinkList({ data, hrefReplace, ...props }: LinkListType) {
   return data?.map(async (item, index) => {
-    const label = await dataFetch(item);
+    const label = await dataFetch(item).then((data) => {
+      return {
+        name: isTech ? data.result.properties.name : data.name,
+        title: data.title,
+      };
+    });
+
     const hrefNew = item.replace(
       `${hrefReplace?.termFind}`,
       `${hrefReplace?.termReplace}`
